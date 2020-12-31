@@ -10,15 +10,13 @@ from youtube_dl import YoutubeDL
 playlist_url = (Path.cwd() / "playlist.url").open().read()
 
 temp_dir = Path(getenv("TEMP")) if getenv("TEMP") != None else Path.cwd()
-
 output_dir = temp_dir / f"dahlia-{uuid4()}"
-yt_dl_output_template = str(temp_dir) + "/%(title)s.%(ext)s"
+output_dir.mkdir(parents=True, exist_ok=True)
 
-yt_dl_options = {
+yt_dl_output_template = str(output_dir) + "/%(title)s.%(ext)s"
 
-}
+os_system(f"youtube-dl -o {yt_dl_output_template} -x --audio-format mp3 {playlist_url}")
 
-with YoutubeDL(yt_dl_options) as yt_dl:
-	yt_dl.download([playlist_url])
+os_system(f"explorer {output_dir}")
 
-os_system(f"explorer.exe {output_dir}")
+input("Script is complete. Press enter to exit")
