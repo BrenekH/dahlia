@@ -5,7 +5,13 @@ from pathlib import Path
 from sys import argv as sys_argv
 from uuid import uuid4
 
-playlist_url = sys_argv[1]
+try:
+	playlist_url = sys_argv[1]
+except IndexError:
+	f = Path(getenv("APPDATA")) / "brenekh-Dahlia/url.config" # APPDATA gives Windows "Roaming" data
+	if not f.exists():
+		raise RuntimeError(f"Could not locate playlist url to download. Either pass it on the command line or setup {f}")
+	playlist_url = f.open().read()
 
 temp_dir = Path(getenv("TEMP")) if getenv("TEMP") != None else Path.cwd()
 output_dir = temp_dir / f"dahlia-{uuid4()}"
