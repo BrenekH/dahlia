@@ -2,11 +2,10 @@ import subprocess
 from os import getenv
 from os import system as os_system
 from pathlib import Path
+from sys import argv as sys_argv
 from uuid import uuid4
 
-# TODO: Change this to accept through sys.argv
-# Read in playlist url from playlist.url
-playlist_url = (Path.cwd() / "playlist.url").open().read()
+playlist_url = sys_argv[1]
 
 temp_dir = Path(getenv("TEMP")) if getenv("TEMP") != None else Path.cwd()
 output_dir = temp_dir / f"dahlia-{uuid4()}"
